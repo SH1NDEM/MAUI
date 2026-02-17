@@ -1,45 +1,47 @@
+using SQLite;
+
 namespace MAUI;
 
 public static class NoteStorage
 {
-    private static readonly List<NoteItem> Notes =
-    [
-        new NoteItem
-        {
-            Title = "Пример заметки",
-            Text = "Нажмите «Редактировать», чтобы изменить эту заметку.",
-            DateTime = DateTime.Now
-        }
-    ];
+    private static readonly Lazy<SQLiteConnection> Connection = new(CreateConnection);
 
-    public static IReadOnlyList<NoteItem> GetAll() => Notes
-        .OrderByDescending(note => note.DateTime)
+    private static SQLiteConnection Db => Connection.Value;
+
+    private static SQLiteConnection CreateConnection()
+    {
+        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "notes.db3");
+        var connection = new SQLiteConnection(databasePath);
+        connection.CreateTable<NoteItem>();
+        return connection;
+    }
+
+    public static IReadOnlyList<NoteItem> GetAll() => Db.Table<NoteItem>()
+        .OrderByDescending(note => note.ScheduledAt)
         .ToList();
 
-    public static NoteItem? GetById(Guid id) => Notes.FirstOrDefault(note => note.Id == id);
+    public static NoteItem? GetById(Guid id) => Db.Find<NoteItem>(id);
 
     public static void Save(NoteItem note)
     {
+        var now = DateTime.Now;
         var existing = GetById(note.Id);
 
         if (existing is null)
         {
-            Notes.Add(note);
+            note.CreatedAt = now;
+            note.UpdatedAt = now;
+            Db.Insert(note);
             return;
         }
 
-        existing.Title = note.Title;
-        existing.Text = note.Text;
-        existing.DateTime = note.DateTime;
+        note.CreatedAt = existing.CreatedAt;
+        note.UpdatedAt = now;
+        Db.Update(note);
     }
 
     public static void Delete(Guid id)
     {
-        var note = GetById(id);
-
-        if (note is not null)
-        {
-            Notes.Remove(note);
-        }
+        Db.Delete<NoteItem>(id);
     }
 }
