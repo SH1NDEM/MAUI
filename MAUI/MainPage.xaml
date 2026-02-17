@@ -41,7 +41,11 @@
                                    LineBreakMode="TailTruncation"
                                    MaxLines="2" />
 
-                            <Label Text="{Binding DateTime, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
+                            <Label Text="{Binding ScheduledAt, StringFormat='Назначено: {0:dd.MM.yyyy HH:mm}'}"
+                                   FontSize="12"
+                                   TextColor="#6A6A6A" />
+
+                            <Label Text="{Binding UpdatedAt, StringFormat='Изменено: {0:dd.MM.yyyy HH:mm}'}"
                                    FontSize="12"
                                    TextColor="#6A6A6A" />
 
