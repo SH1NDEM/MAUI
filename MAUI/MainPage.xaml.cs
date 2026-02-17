@@ -6,6 +6,23 @@ public partial class MainPage : ContentPage
 {
     public ObservableCollection<NoteItem> VisibleNotes { get; } = [];
 
+    private string _currentDateLabel = string.Empty;
+
+    public string CurrentDateLabel
+    {
+        get => _currentDateLabel;
+        set
+        {
+            if (_currentDateLabel == value)
+            {
+                return;
+            }
+
+            _currentDateLabel = value;
+            OnPropertyChanged();
+        }
+    }
+
     public MainPage()
     {
         InitializeComponent();
@@ -15,12 +32,18 @@ public partial class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        CurrentDateLabel = AppSettings.CurrentDate.ToString("dd.MM.yyyy");
         ApplyFilter();
     }
 
     private async void OnCreateClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(NoteEditorPage));
+    }
+
+    private async void OnSettingsClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SettingsPage));
     }
 
     private async void OnEditClicked(object? sender, EventArgs e)

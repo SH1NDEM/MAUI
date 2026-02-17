@@ -25,9 +25,9 @@ public partial class NoteEditorPage : ContentPage, IQueryAttributable
 
     private void SetDefaultValues()
     {
-        var now = DateTime.Now;
-        DatePicker.Date = now.Date;
-        TimePicker.Time = now.TimeOfDay;
+        var baseDate = AppSettings.CurrentDate;
+        DatePicker.Date = baseDate;
+        TimePicker.Time = DateTime.Now.TimeOfDay;
     }
 
     private void LoadNote()
@@ -51,8 +51,8 @@ public partial class NoteEditorPage : ContentPage, IQueryAttributable
         Title = "Редактирование";
         TitleEntry.Text = note.Title;
         TextEditor.Text = note.Text;
-        DatePicker.Date = note.DateTime.Date;
-        TimePicker.Time = note.DateTime.TimeOfDay;
+        DatePicker.Date = note.ScheduledAt.Date;
+        TimePicker.Time = note.ScheduledAt.TimeOfDay;
     }
 
     private async void OnCancelClicked(object? sender, EventArgs e)
@@ -77,7 +77,7 @@ public partial class NoteEditorPage : ContentPage, IQueryAttributable
             Id = _noteId ?? Guid.NewGuid(),
             Title = title,
             Text = TextEditor.Text?.Trim() ?? string.Empty,
-            DateTime = dateTime
+            ScheduledAt = dateTime
         };
 
         NoteStorage.Save(note);

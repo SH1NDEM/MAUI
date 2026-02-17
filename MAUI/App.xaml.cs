@@ -5,6 +5,7 @@
         public App()
         {
             InitializeComponent();
+            AppSettings.ApplyToResources(Resources);
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
