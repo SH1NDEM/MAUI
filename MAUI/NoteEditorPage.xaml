@@ -6,31 +6,44 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="12">
-            <Label Text="Название" />
+            <Label Text="Название"
+                   FontFamily="{DynamicResource AppFontFamily}"
+                   FontSize="{DynamicResource AppFontSize}" />
             <Entry x:Name="TitleEntry"
-                   Placeholder="Введите название" />
+                   Placeholder="Введите название"
+                   FontFamily="{DynamicResource AppFontFamily}"
+                   FontSize="{DynamicResource AppFontSize}" />
 
-            <Label Text="Текст заметки" />
+            <Label Text="Текст заметки"
+                   FontFamily="{DynamicResource AppFontFamily}"
+                   FontSize="{DynamicResource AppFontSize}" />
             <Editor x:Name="TextEditor"
                     Placeholder="Введите текст"
                     AutoSize="TextChanges"
+                    FontFamily="{DynamicResource AppFontFamily}"
+                    FontSize="{DynamicResource AppFontSize}"
                     MinimumHeightRequest="140" />
 
-            <Label Text="Дата" />
+            <Label Text="Дата"
+                   FontFamily="{DynamicResource AppFontFamily}"
+                   FontSize="{DynamicResource AppFontSize}" />
             <DatePicker x:Name="DatePicker" />
 
-            <Label Text="Время" />
+            <Label Text="Время"
+                   FontFamily="{DynamicResource AppFontFamily}"
+                   FontSize="{DynamicResource AppFontSize}" />
             <TimePicker x:Name="TimePicker" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
                 <Button Grid.Column="0"
                         Text="Отмена"
-                        Clicked="OnCancelClicked" />
+                        Clicked="OnCancelClicked"
+                        BackgroundColor="{DynamicResource AppDangerColor}" />
 
                 <Button Grid.Column="1"
                         Text="Сохранить"
                         Clicked="OnSaveClicked"
-                        BackgroundColor="#5CB85C"
+                        BackgroundColor="{DynamicResource AppPrimaryColor}"
                         TextColor="White" />
             </Grid>
         </VerticalStackLayout>

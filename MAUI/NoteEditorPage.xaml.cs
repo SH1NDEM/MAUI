@@ -25,9 +25,9 @@ public partial class NoteEditorPage : ContentPage, IQueryAttributable
 
     private void SetDefaultValues()
     {
-        var now = DateTime.Now;
-        DatePicker.Date = now.Date;
-        TimePicker.Time = now.TimeOfDay;
+        var baseDate = AppSettings.CurrentDate;
+        DatePicker.Date = baseDate;
+        TimePicker.Time = DateTime.Now.TimeOfDay;
     }
 
     private void LoadNote()

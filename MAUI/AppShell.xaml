@@ -6,6 +6,18 @@
     xmlns:local="clr-namespace:MAUI"
     Title="Ежедневник">
 
+    <Shell.FlyoutFooter>
+        <Grid Padding="10" RowDefinitions="Auto,Auto">
+            <Image Source="dotnet_bot.png"
+                   HeightRequest="48"
+                   HorizontalOptions="Center" />
+            <Label Grid.Row="1"
+                   Text="Ежедневник"
+                   HorizontalOptions="Center"
+                   FontSize="12" />
+        </Grid>
+    </Shell.FlyoutFooter>
+
     <ShellContent
         Title="Заметки"
         ContentTemplate="{DataTemplate local:MainPage}"

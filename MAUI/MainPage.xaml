@@ -6,16 +6,34 @@
              x:DataType="local:MainPage"
              Title="Ежедневник">
 
-    <Grid Padding="16" RowDefinitions="Auto,Auto,*" RowSpacing="12">
-        <Button Grid.Row="0"
-                Text="Создать заметку"
-                Clicked="OnCreateClicked" />
+    <Grid Padding="16" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="12">
+        <Grid Grid.Row="0" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Grid.Column="0"
+                    Text="Создать заметку"
+                    Clicked="OnCreateClicked"
+                    BackgroundColor="{DynamicResource AppPrimaryColor}"
+                    FontFamily="{DynamicResource AppFontFamily}"
+                    FontSize="{DynamicResource AppFontSize}" />
+
+            <Button Grid.Column="1"
+                    Text="Настройки"
+                    Clicked="OnSettingsClicked"
+                    BackgroundColor="{DynamicResource AppPrimaryColor}"
+                    FontFamily="{DynamicResource AppFontFamily}"
+                    FontSize="{DynamicResource AppFontSize}" />
+        </Grid>
 
         <SearchBar Grid.Row="1"
                    Placeholder="Поиск по названию или тексту"
                    TextChanged="OnSearchTextChanged" />
 
-        <CollectionView Grid.Row="2"
+        <Label Grid.Row="2"
+               Text="Дата в настройках: {Binding CurrentDateLabel}"
+               TextColor="{DynamicResource AppSecondaryTextColor}"
+               FontFamily="{DynamicResource AppFontFamily}"
+               FontSize="12" />
+
+        <CollectionView Grid.Row="3"
                         ItemsSource="{Binding VisibleNotes}">
             <CollectionView.EmptyView>
                 <VerticalStackLayout Padding="20" Spacing="8">
@@ -28,16 +46,17 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:NoteItem">
                     <Border StrokeThickness="1"
-                            Stroke="#D0D0D0"
+                            Stroke="{DynamicResource AppCardBorderColor}"
                             StrokeShape="RoundRectangle 10"
                             Padding="12"
                             Margin="0,0,0,10">
                         <VerticalStackLayout Spacing="8">
                             <Label Text="{Binding Title}"
-                                   FontAttributes="Bold"
-                                   FontSize="18" />
+                                   Style="{StaticResource NoteTitleStyle}" />
 
                             <Label Text="{Binding Text}"
+                                   FontFamily="{DynamicResource AppFontFamily}"
+                                   FontSize="{DynamicResource AppFontSize}"
                                    LineBreakMode="TailTruncation"
                                    MaxLines="2" />
 
@@ -57,7 +76,7 @@
                                 <Button Text="Удалить"
                                         Clicked="OnDeleteClicked"
                                         CommandParameter="{Binding Id}"
-                                        BackgroundColor="#D9534F"
+                                        BackgroundColor="{DynamicResource AppDangerColor}"
                                         TextColor="White" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>

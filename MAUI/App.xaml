@@ -1,4 +1,4 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<?xml version = "1.0" encoding = "UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MAUI"
@@ -9,6 +9,31 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="AppPrimaryColor">#512BD4</Color>
+            <Color x:Key="AppDangerColor">#D9534F</Color>
+            <Color x:Key="AppCardBorderColor">#D0D0D0</Color>
+            <Color x:Key="AppSecondaryTextColor">#6A6A6A</Color>
+            <x:String x:Key="AppFontFamily">OpenSansRegular</x:String>
+            <x:Double x:Key="AppFontSize">14</x:Double>
+
+            <Style x:Key="SettingsHeaderLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSize}" />
+            </Style>
+
+            <Style x:Key="NoteTitleStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+
+            <Style x:Key="NoteMetaStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="{DynamicResource AppSecondaryTextColor}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
