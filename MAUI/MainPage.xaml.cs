@@ -1,24 +1,83 @@
-﻿namespace MAUI
-{
-    public partial class MainPage : ContentPage
-    {
-        int count = 0;
+using System.Collections.ObjectModel;
 
-        public MainPage()
+namespace MAUI;
+
+public partial class MainPage : ContentPage
+{
+    public ObservableCollection<NoteItem> VisibleNotes { get; } = [];
+
+    public MainPage()
+    {
+        InitializeComponent();
+        BindingContext = this;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ApplyFilter();
+    }
+
+    private async void OnCreateClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(NoteEditorPage));
+    }
+
+    private async void OnEditClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button { CommandParameter: Guid noteId })
         {
-            InitializeComponent();
+            return;
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        var parameters = new Dictionary<string, object>
         {
-            count++;
+            ["NoteId"] = noteId.ToString()
+        };
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+        await Shell.Current.GoToAsync(nameof(NoteEditorPage), parameters);
+    }
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+    private async void OnDeleteClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button { CommandParameter: Guid noteId })
+        {
+            return;
+        }
+
+        var confirmed = await DisplayAlert("Удаление", "Удалить заметку?", "Да", "Нет");
+
+        if (!confirmed)
+        {
+            return;
+        }
+
+        NoteStorage.Delete(noteId);
+        ApplyFilter();
+    }
+
+    private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        ApplyFilter(e.NewTextValue);
+    }
+
+    private void ApplyFilter(string? searchText = null)
+    {
+        var query = (searchText ?? string.Empty).Trim();
+        var allNotes = NoteStorage.GetAll();
+
+        var filtered = string.IsNullOrWhiteSpace(query)
+            ? allNotes
+            : allNotes.Where(note =>
+                note.Title.Contains(query, StringComparison.CurrentCultureIgnoreCase) ||
+                note.Text.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                .ToList();
+
+        VisibleNotes.Clear();
+
+        foreach (var note in filtered)
+        {
+            VisibleNotes.Add(note);
         }
     }
 }
